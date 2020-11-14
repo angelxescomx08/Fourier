@@ -1,14 +1,16 @@
 const c = document.getElementById('canvas')
 const ctx = c.getContext('2d')
 
-let a = 0
+let x = 0
+let y = 0
+let w = 1
+
+let t = 0
 let time = new Date()
 let arry = []
 
 const sen = a => Math.sin(a)
 const cos = a => Math.cos(a)
-
-console.log(ctx)
 
 const circulo = (x, y, r, relleno, color)=>{
     ctx.lineWidth = 2
@@ -29,22 +31,35 @@ const linea = (x1,y1,x2,y2)=>{
     ctx.stroke(); 
 }
 
+ctx.translate(100,300)
 function dibujar(){
-    ctx.clearRect(0,0,600,600); // limpiar canvas
-    a += 0.05
+    ctx.clearRect(-100,-300,5000,3000); // limpiar canvas
+    x = 0
+    y = 0
+    for(let j =0;j<8;j++){
 
-    circulo(100, 300, 75, false,'#fff')
-    let x = 75*cos(a)+100
-    let y = 75*sen(a)+300
-    linea(100,300,x,y)
-    circulo(x,y,5,true,'#000')
+        let auxx = x
+        let auxy = y
+        let n = j * 2 + 1
+
+        let r = 75*(4/(n*Math.PI))
+
+        x += r*cos(n*w*t)
+        y += r*sen(n*w*t)
+
+        circulo(auxx,auxy,r,false,'#000')
+        linea(auxx,auxy,x,y)
+
+    }
 
     arry.unshift(y)
     for(let i=0;i<arry.length;i++){
-        circulo(400+i,arry[i],5,true,'#000')
+        circulo(250+i, arry[i], 1, true, '#000')
     }
-    linea(x,y,400,arry[0])
 
+    linea(x,y,250,arry[0])
+
+    t -= 0.02
     if(arry.length > 250){
         arry = arry.splice(0,250)
     }
