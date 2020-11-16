@@ -1,9 +1,12 @@
 const c = document.getElementById('canvas')
 const ctx = c.getContext('2d')
+const nslider = document.getElementById('n')
+const w0slider = document.getElementById('w0')
+const rslider = document.getElementById('r')
+const tslider = document.getElementById('t')
 
 let x = 0
 let y = 0
-let w = 1
 
 let t = 0
 let time = new Date()
@@ -36,13 +39,13 @@ function dibujar(){
     ctx.clearRect(-100,-300,5000,3000); // limpiar canvas
     x = 0
     y = 0
-    for(let j =0;j<8;j++){
-
+    for(let j =0;j<nslider.value;j++){
+        let w = w0slider.value
         let auxx = x
         let auxy = y
         let n = j * 2 + 1
 
-        let r = 75*(4/(n*Math.PI))
+        let r = rslider.value/n
 
         x += r*cos(n*w*t)
         y += r*sen(n*w*t)
@@ -59,7 +62,7 @@ function dibujar(){
 
     linea(x,y,250,arry[0])
 
-    t -= 0.02
+    t -= tslider.value
     if(arry.length > 250){
         arry = arry.splice(0,250)
     }
